@@ -26,7 +26,6 @@ li {
 }
 nav > ul > li {
 	padding-right: 150px;
-	background-color: grey;
 }
 #slider {
 	height: 450px;
@@ -111,7 +110,7 @@ nav > ul > li {
 	margin: 5px;
 	float: left;
 }
-#gallery-main-content > h4 {
+#gallery-main-content > p {
 	text-align: center;
 }
 #gallery-main-content > div > div {
