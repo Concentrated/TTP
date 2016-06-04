@@ -1,0 +1,142 @@
+body {
+	margin: 0px;
+	word-wrap: break-word;
+}
+a {
+	text-decoration: none;
+}
+header {
+	margin-top: 20px;
+}
+nav {
+
+}
+nav > *{
+	display: inline;
+}
+ul {
+	float: right;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	transform: translate(0, 100%);
+}
+li {
+	list-style: none;
+	display: inline;
+}
+nav > ul > li {
+	padding-right: 150px;
+}
+#slider {
+	height: 450px;
+	background-image: url(http://www.magic4walls.com/wp-content/uploads/2013/12/black-keyboard-lights-macbook-hi-tech-wallpaper-2560x1600.jpg);
+	background-size: 100% 100%;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#home-main-content {
+	clear: both;
+}
+#home-left-content {
+	float: left;
+	width:50%;
+	height: 400px;
+}
+#home-left-content > p {
+	text-align: center;
+	color: grey;
+}
+#home-left-content > div {
+	margin: 10px 20px 0px 20px;
+	height: 200px;
+}
+#home-right-content {
+	float: left;
+	width: 50%;
+	height: 400px;
+}
+#home-right-content > p {
+	text-align: center;
+	color: grey;
+}
+#home-right-content > div {
+	margin: 10px 20px 0px 20px;
+	height: 200px;
+}
+#fixed-media-bar {
+	position: fixed;
+	width: 40px;
+	height: 65px;
+	margin-top: 200px;
+	background-color: grey;
+	border-radius: 10px;
+}
+.toggle-icon {
+	margin-left: 0px;
+	transition: margin-left 0.5s;
+}
+.toggle-icon:hover {
+	margin-left: 10px;
+}
+#about-main-content {
+ 	margin-top: 20px;
+}
+.sections {
+	height: 300px;
+	width: 33.333%;
+	float: left;
+	
+}
+.sections:hover {
+	
+}
+.sections > div {
+	width: 100px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin: 0 auto;
+	color: white;
+	text-align: center;
+	border-radius: 5px;
+}
+.sections > p {
+	overflow-wrap: break-word;
+	padding: 50px;
+	color: grey;
+}
+#gallery-main-content > div{
+	width: 200px;
+	height:200px;
+	margin: 5px;
+	float: left;
+}
+#gallery-main-content > p {
+	text-align: center;
+}
+#gallery-main-content > div > div {
+	height: 100%;
+	border-radius: 50%;
+	transition: border-radius 1s;
+}
+#gallery-main-content > div > div:hover {
+	border-radius: 10%;
+}
+#img1 {
+	background-image: url(http://www.planwallpaper.com/static/images/4-Nature-Wallpapers-2014-1_ukaavUI.jpg);
+	background-size: 100% 100%;
+	
+}
+#img2 {
+	background-image: url(http://www.hdwallpapers.in/walls/nature_bond-wide.jpg);
+	background-size: 100% 100%;
+	
+}
+#img3 {
+	background-image: url(http://www.planwallpaper.com/static/images/Coconut-Tree-at-Beach-Nature-Wallpaper.jpg);
+	background-size: 100% 100%
+	
+}
+#img4 {
+	background-image: url(http://www.planwallpaper.com/static/images/Background.jpg);
+	background-size: 100% 100%
+}
