@@ -9,7 +9,7 @@
 			console.log("reading cookies");
 			if(document.cookie != "") {
 				console.log("Cookie is set");
-				document.getElementById("msg").innerHTML = "Welcome " + ReadCookie();
+				document.getElementsByTagName("body")[0].innerHTML = "Welcome " + ReadCookie();
 			} else {
 				//don't play animation
 			}
