@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			var btn = document.getElementById("btn");
+			btn.addEventListener("click", function() {
+				search();
+			});
+
+			var input = document.getElementById("name");
+
+			input.addEventListener("keyup", function() {
+				search();
+			})
+		}
+
+
+		function search() {
+			var name = document.getElementById("name").value;
+
+			if(name.length < 3) {
+
+				document.getElementById("info").innerHTML = "Movie name need to be more than 3 characters";
+				return;
+			}
+
+			// $.ajax({   
+			// 	url: "http://www.omdbapi.com/?",   
+			// 	data: {     
+			// 		t: name  
+			// 	},   
+			// 	dataType: "json",   
+			// 	success: function(response) {    
+
+			// 		console.log(response); 
+
+			// 		var string = "";
+
+			// 		if(response.Response == "True") {
+			// 			string = "<div>" 
+			// 						+ "<img src='" + response.Poster + "'>"
+			// 						+ "<div>" + "Title: " + response.Title
+			// 						+ "<div>" + "Genre: " + response.Genre
+			// 						+ "<div>" + "Release: " + response.Released
+			// 						+ "<div>" + "Length: " + response.Runtime;
+			// 					"</div>";
+			// 		} else {
+			// 			string = response.Error;
+			// 		}
+
+			// 		document.getElementById("info").innerHTML = string;
+			// 	} 
+			// });
+
+			$.ajax({
+				url: "http://www.omdbapi.com/?",   
+				data: {     
+					s: name,
+					page: 1
+				},   
+				dataType: "json",
+				success: function(response) {
+					console.log(response);
+
+					var string = "";
+
+					if(response.Response == "True") {
+						for(var i = 0; i < response.totalResults; i++) {
+							string += "<div class='movie-title'>" + response.Search[i].Title + "</div>";
+							if(i == 9) break;
+						}
+					} else {
+						string = "No movie was found by this title";
+					}
+					document.getElementById("info").innerHTML = string;
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+
+<input type="text" id="name" placeholder="Name of the movie">
+<input type="submit" value="search" id="btn">
+
+<div id="info"></div>
+
+<div id="other"></div>
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
