@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<style type="text/css">
+		body {
+			margin: 0px;
+		}
+		#jukebox {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			border: 1px solid purple;
+			padding: 20px;
+			cursor: default;
+		}
+		#song-list > div{
+			list-style: none;
+			border: 1px solid orange;
+			margin-bottom: 5px;
+		}
+		#song-list > div:hover {
+
+		}
+		#modal-wrapper {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(155,155,155,0.6);
+			display: none;
+			
+		}
+		#modal {
+			position: relative;
+			top: 30%;
+			width: 500px;
+
+			padding: 30px;
+			margin: 0 auto;
+
+			background-color: white;
+
+			border-radius: 10px;
+		}
+		#modal > form > input {
+			margin: 10px;
+		}
+		#modal #upload {
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, 0);
+			background-color: blue;
+			padding: 3px;
+			border-radius: 5px;
+			color: orange;
+			cursor: pointer;
+		}
+		#modal #close {
+			position: absolute;
+			top: 2%;
+			right: 1%;
+			cursor: pointer;
+		}
+		#modal #close:hover {
+			color: red;
+		}
+	</style>
+</script>
+
+	<script type="text/javascript">
+
+		var audio, source;
+
+		function Music() {
+			this.name;
+			this.path;
+		}
+		var JukeBox = {
+			pointer: 0,
+			tracks: [],
+			play: function() {
+
+				var currSrc = audio.currentSrc.substring(audio.currentSrc.indexOf("jukebox")+8); //the index + the length of the current repo + 1
+				// console.log("Curent src: " + currSrc);
+
+				//if the song changed start the new song
+				if(currSrc == null || currSrc != this.tracks[this.pointer].path) {
+					//switch to a different song
+					source.setAttribute("src", this.tracks[this.pointer].path);
+					audio.load();
+				}
+				audio.play();
+				console.log("Current Playing song duration: " + audio.duration);
+			},
+			pause: function() {
+				audio.pause();
+			},
+			stop: function() {
+				audio.pause;
+				source.setAttribute("src", this.tracks[this.pointer].path);
+				audio.load();
+			},
+			load: function(name, songPath) {
+				var song = new Music();
+				song.name = name;
+				song.path = songPath;
+				this.tracks.push(song);
+				var list_item = document.createElement("div");
+				list_item.innerHTML = "<div onclick='play(this)'>" + name + "</div>"
+				document.getElementById("song-list").appendChild(list_item);
+			},
+			// delete: function(songPath) {
+			// 	this.tracks.remove(songPath);
+			// },
+			next: function() {
+				this.pointer = (this.pointer+1)%(this.tracks.length);
+				console.log("Music " + this.pointer + " out of " + (this.tracks.length));
+				this.stop();
+				this.play();
+			},
+			initialize: function() {
+				this.load("Love", "music/IU-Love.mp3");
+				this.load("Fantastic Baby", "music/BB-FB.mp3");
+			}
+		}
+		
+		window.onload = function() {
+
+			audio = document.getElementById("audio");
+			source = document.getElementsByTagName("source")[0];
+
+			var playBtn = document.getElementById("playButton");
+			var pauseBtn = document.getElementById("pauseButton");
+			var stopBtn = document.getElementById("stopButton");
+			var nextBtn = document.getElementById("nextButton");
+			var uploadBtn = document.getElementById("uploadButton");
+			var upload = document.getElementById("upload");
+
+			playBtn.addEventListener("click", function() {
+				JukeBox.play();
+			});
+
+			pauseButton.addEventListener("click", function() {
+				JukeBox.pause();
+			});
+
+			stopBtn.addEventListener("click", function() {
+				JukeBox.stop();
+			});
+			nextBtn.addEventListener("click", function() {
+				JukeBox.next();
+			});
+			uploadBtn.addEventListener("click", function() {
+				document.getElementById("modal-wrapper").style.display = "block";
+			});
+			upload.addEventListener("click", function() {
+				var file = document.querySelectorAll('[name="song"]')[0].files[0].name;
+				var name = document.querySelectorAll('[name="song_name"]')[0].value;
+				var path = document.querySelectorAll('[name="path"]')[0].value + "/" + file;
+				JukeBox.load(name, path);
+				document.getElementById("modal-wrapper").style.display = "none";
+			})
+
+			//initialize the jukebox and start playing
+			JukeBox.initialize();
+			JukeBox.play();
+
+			var songs = "";
+			for(song in JukeBox.tracks) {
+				songs += "<div onclick='play(this)'>" + JukeBox.tracks[song].name + "</div>";
+			}
+			document.getElementById("song-list").innerHTML = songs;
+		}
+
+		function play(obj) {
+
+			console.log(obj.innerHTML);
+
+			for(var i = 0 ; i < JukeBox.tracks.length; i++) {
+
+				console.log(JukeBox.tracks[i].name);
+				if(JukeBox.tracks[i].name == obj.innerHTML)
+					JukeBox.pointer = i;
+			}
+
+			JukeBox.play();
+		}
+	</script>
+
+</head>
+<body>
+	
+	<div id="jukebox">
+		<div id="song-list">
+			
+		</div>
+	</div>
+
+	<div id="modal-wrapper">
+		<div id="modal">
+			<div id="close" onclick="new function() {document.getElementById('modal-wrapper').style.display='none';};" >X</div>
+			<form>
+				<input type="file" name="song" accept="audio/*">
+				<br>
+				<label for="song_name">Song Name:</label>
+				<input type="text" name="song_name" id="song_name">
+				<br>
+				<label for="path">Full Path to this File: </label>
+				<input type="text" name="path" id="path">
+			</form>
+
+			<div id="upload">Upload</div>
+		</div>
+	</div>
+
+	<div id="playButton">Play</div>
+	<div id="pauseButton">Pause</div>
+	<div id="stopButton">Stop</div>
+	<div id="nextButton">Next</div>
+	<div id="uploadButton">Upload</div>
+
+	<audio id="audio">
+		<source src="music/IU-Love.mp3" type="audio/mpeg">
+	</audio>
+
+	<div id="player">
+		
+	</div>
+</body>
+</html>
