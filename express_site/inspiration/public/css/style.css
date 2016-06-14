@@ -16,3 +16,12 @@ header > nav > ul > li {
 	width: 100px;
 	border-radius: 100px;
 }
+#main {
+	background-color: green;
+}
+#about {
+	background-color: red;
+}
+#inspiration {
+	background-color: blue;
+}
