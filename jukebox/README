@@ -5,9 +5,4 @@ Features:
   -play, pause, stop, next
   -upload a local mp3 to jukebox, **need to provide a full path to the mp3 file
   -clickable playlist
-  
-  
-Populated Music for the Jukebox:
-  -Counting Stars by OneRepublic
-  -CAN'T STOP THE FEELING(From DreamWorks Animation's "Trolls") by Justin Timberlake
-  -See You Again(Feat. Charlie Puth) by Wiz Khalifa
+  -Prepopulate the jukebox with songs found from online resources
