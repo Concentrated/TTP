@@ -6,22 +6,67 @@
 	<style type="text/css">
 		body {
 			margin: 0px;
+			background-image: url("https://images5.alphacoders.com/551/551123.jpg");
+			background-size: cover;
 		}
-		#jukebox {
+		#song-list {
 			position: absolute;
-			top: 50%;
 			left: 50%;
-			transform: translate(-50%, -50%);
-			border: 1px solid purple;
-			padding: 20px;
+			top: 10%;
+			border: 10px solid grey;
+			border-radius: 5px;
+			transform: translate(-50%, 0);
+			clear: left;
+			background-color: grey;
+			opacity: 0.8;
+			height: 80px;
+			width: 70%;
+			overflow-y: auto;
 			cursor: default;
 		}
 		#song-list > div{
 			list-style: none;
-			border: 1px solid orange;
-			margin-bottom: 5px;
+			border-bottom: 1px solid black;	
 		}
 		#song-list > div:hover {
+			color: gold;
+		}
+		#jukebox {
+			border: 1px solid purple;
+			cursor: default;
+			background-color: lightblue;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, 0);
+			width: 300px;
+			opacity: 0.6;
+			font-size: 12px;
+		}
+		#jukebox > #main-controls > div {
+			float: left;
+			margin-left: 20px;
+			transition: all 1s;
+		}
+		#jukebox > #main-controls > div:hover {
+			border: 1px solid black;
+		}
+		#jukebox > #sub-controls > div{
+			float: left;
+			width: 50%;
+			background-color: black;
+			color: white;
+		}
+		#jukebox > #sub-controls > div:hover {
+			cursor: pointer;
+			color: red;
+		}
+		#player {
+			border: 1px solid black;
+			clear: left;
+			padding: 10px;
+		}
+		#player > #song{
 
 		}
 		#modal-wrapper {
@@ -92,6 +137,7 @@
 					audio.load();
 				}
 				audio.play();
+				document.getElementById("song").innerHTML = this.tracks[this.pointer].name;
 				console.log("Current Playing song duration: " + audio.duration);
 			},
 			pause: function() {
@@ -103,6 +149,7 @@
 				audio.load();
 			},
 			load: function(name, songPath) {
+				//Store the new song as a object in tracks
 				var song = new Music();
 				song.name = name;
 				song.path = songPath;
@@ -115,14 +162,17 @@
 			// 	this.tracks.remove(songPath);
 			// },
 			next: function() {
+				//assign new pointer which is relatively to the size of the track
 				this.pointer = (this.pointer+1)%(this.tracks.length);
 				console.log("Music " + this.pointer + " out of " + (this.tracks.length));
 				this.stop();
 				this.play();
 			},
 			initialize: function() {
-				this.load("Love", "music/IU-Love.mp3");
-				this.load("Fantastic Baby", "music/BB-FB.mp3");
+				//Populate the jukebox with songs on start
+				this.load("See You Again", "music/SeeYouAgain.mp3");
+				this.load("Can't Stop The Feeling", "music/TheFeeling.m4a");
+				this.load("Counting Stars", "music/CountingStars.mp3");
 			}
 		}
 		
@@ -136,6 +186,7 @@
 			var stopBtn = document.getElementById("stopButton");
 			var nextBtn = document.getElementById("nextButton");
 			var uploadBtn = document.getElementById("uploadButton");
+			var randomBtn = document.getElementById("randomButton");
 			var upload = document.getElementById("upload");
 
 			playBtn.addEventListener("click", function() {
@@ -149,37 +200,61 @@
 			stopBtn.addEventListener("click", function() {
 				JukeBox.stop();
 			});
+
 			nextBtn.addEventListener("click", function() {
 				JukeBox.next();
 			});
+
 			uploadBtn.addEventListener("click", function() {
 				document.getElementById("modal-wrapper").style.display = "block";
 			});
+
+			randomBtn.addEventListener("click", function() {
+				//a random number between 0 and size of tracks
+				var random_index = Math.floor((Math.random() * JukeBox.tracks.length) + 0);
+				console.log(random_index);
+				JukeBox.pointer = random_index;
+				JukeBox.stop();
+				JukeBox.play();
+			});
+
 			upload.addEventListener("click", function() {
-				var file = document.querySelectorAll('[name="song"]')[0].files[0].name;
+				try{
+					//check if the user upload a file
+					var file = document.querySelectorAll('[name="song"]')[0].files[0].name;
+				}catch(err) {
+					alert("Failed to upload no file is found");
+				}
 				var name = document.querySelectorAll('[name="song_name"]')[0].value;
 				var path = document.querySelectorAll('[name="path"]')[0].value + "/" + file;
-				JukeBox.load(name, path);
-				document.getElementById("modal-wrapper").style.display = "none";
-			})
+				if(name == "" || path == "") {
+					//check for empty fields
+					alert("Please fill in all the fills before upload")
+				} else {
+					var temp = document.createElement("audio");
+					temp.src = path;
+					console.log(path);
+					JukeBox.load(name, path);
+					document.getElementById("modal-wrapper").style.display = "none";
+				}
+			});
 
 			//initialize the jukebox and start playing
 			JukeBox.initialize();
 			JukeBox.play();
 
-			var songs = "";
-			for(song in JukeBox.tracks) {
-				songs += "<div onclick='play(this)'>" + JukeBox.tracks[song].name + "</div>";
-			}
-			document.getElementById("song-list").innerHTML = songs;
+			console.log(JukeBox.tracks[0].name);
+
+			document.getElementById("song").innerHTML = JukeBox.tracks[0].name;
 		}
 
+		//function when song is clicked
 		function play(obj) {
 
 			console.log(obj.innerHTML);
 
 			for(var i = 0 ; i < JukeBox.tracks.length; i++) {
-
+				//get the song that is clicked and set the pointer of the jukebox
 				console.log(JukeBox.tracks[i].name);
 				if(JukeBox.tracks[i].name == obj.innerHTML)
 					JukeBox.pointer = i;
@@ -187,17 +262,33 @@
 
 			JukeBox.play();
 		}
+
 	</script>
 
 </head>
 <body>
 	
 	<div id="jukebox">
-		<div id="song-list">
-			
+
+		<div id="main-controls">
+			<div id="playButton">Play</div>
+			<div id="pauseButton">Pause</div>
+			<div id="stopButton">Stop</div>
+			<div id="nextButton">Next</div>
 		</div>
+
+		<div id="player">
+			<div id="song"></div>
+		</div>
+
+		<div id="sub-controls">
+			<div id="uploadButton">Upload</div>
+			<div id="randomButton">Request a Random Song</div>
+		</div>
+
 	</div>
 
+	<div id="song-list"></div>
 	<div id="modal-wrapper">
 		<div id="modal">
 			<div id="close" onclick="new function() {document.getElementById('modal-wrapper').style.display='none';};" >X</div>
@@ -215,18 +306,10 @@
 		</div>
 	</div>
 
-	<div id="playButton">Play</div>
-	<div id="pauseButton">Pause</div>
-	<div id="stopButton">Stop</div>
-	<div id="nextButton">Next</div>
-	<div id="uploadButton">Upload</div>
-
+	
 	<audio id="audio">
-		<source src="music/IU-Love.mp3" type="audio/mpeg">
+		<source src="music/SeeYouAgain.mp3" type="audio/mpeg">
 	</audio>
 
-	<div id="player">
-		
-	</div>
 </body>
 </html>
