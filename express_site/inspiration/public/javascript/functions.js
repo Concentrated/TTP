@@ -12,4 +12,17 @@ function init() {
 	var container = document.getElementsByClassName("container")[0];
 	//set the container id revelant to the page it's on
 	container.id = page;
+
+	var curr_dir = "/";
+
+	if(page != "main") {
+		curr_dir += page;
+	}
+
+	console.log(curr_dir);
+	var nav = document.querySelectorAll("[href='" + curr_dir + "']")[0];
+	console.log(nav);
+
+	nav.style.textDecoration = "underline";
+	nav.style.color = "gold";
 }
