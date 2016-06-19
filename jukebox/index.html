@@ -171,7 +171,7 @@
 			initialize: function() {
 				//Populate the jukebox with songs on start
 				this.load("See You Again", "http://yuanprofile.net23.net/SeeYouAgain-CharliePuth.mp3");
-				this.load("Can't Stop The Feeling", "http://yuanprofile.net23.net/CantStopTheFeeling-JustinTimberlake.mp3");
+				this.load("Can't Stop The Feeling", "C://KuGou/cantstopthefeeling.m4a");
 				this.load("Counting Stars", "http://yuanprofile.net23.net/CountingStars-OneRepublic.mp3");
 			}
 		}
@@ -181,6 +181,10 @@
 			audio = document.getElementById("audio");
 			source = document.getElementsByTagName("source")[0];
 
+			audio.addEventListener("ended", function() {
+				JukeBox.next();
+			});
+			
 			var playBtn = document.getElementById("playButton");
 			var pauseBtn = document.getElementById("pauseButton");
 			var stopBtn = document.getElementById("stopButton");
