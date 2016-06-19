@@ -6,3 +6,4 @@ Features:
   -upload a local mp3 to jukebox, **need to provide a full path to the mp3 file
   -clickable playlist
   -Prepopulate the jukebox with songs
+  -Auto direct to the next song after current song is finished
